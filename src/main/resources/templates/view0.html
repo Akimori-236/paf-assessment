@@ -11,10 +11,15 @@
             integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
             crossorigin="anonymous"
         />
+        <style>
+            .error {
+                color: red;
+            }
+        </style>
     </head>
     <body>
         <div class="container">
-            <h1>Funds Transfer</h1>
+            <h1>Funds Transfer</h1> 
             <form
                 class="col-lg-6"
                 method="POST"
@@ -67,7 +72,7 @@
                         <td class="form-label text-end">Amount:</td>
                         <td>
                             <input
-                            data-th-field="${transfer.amount}"
+                                data-th-field="${transfer.amount}"
                                 class="form-control"
                                 type="number"
                                 name="amount"
@@ -99,16 +104,24 @@
                             </button>
                         </td>
                     </tr>
-                    <!-- <tr>
-                        <td colspan="2" data-th-if="${#fields.hasErrors()}">
-                            <ul>
+                    <tr>
+                        <td colspan="2">
+                            <ul class="error">
                                 <li
-                                    data-th-each="err : ${#fields.allErrors()}"
-                                    data-th-text="${err}"
+                                    data-th-if="${#fields.hasErrors('fromAccount')}"
+                                    data-th-errors="*{fromAccount}"
+                                ></li>
+                                <li
+                                    data-th-if="${#fields.hasErrors('toAccount')}"
+                                    data-th-errors="*{toAccount}"
+                                ></li>
+                                <li
+                                    data-th-if="${#fields.hasErrors('amount')}"
+                                    data-th-errors="*{amount}"
                                 ></li>
                             </ul>
                         </td>
-                    </tr> -->
+                    </tr>
                 </table>
             </form>
         </div>
