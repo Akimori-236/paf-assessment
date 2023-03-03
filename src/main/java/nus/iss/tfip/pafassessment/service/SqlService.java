@@ -17,4 +17,8 @@ public class SqlService {
     public List<Account> getAllAccounts() {
         return sqlRepo.getAllAccounts();
     }
+
+    public Boolean isAccountExist(String accountId) {
+        return sqlRepo.isAccountExist(accountId);
+    }
 }

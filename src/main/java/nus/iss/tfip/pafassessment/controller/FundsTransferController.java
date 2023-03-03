@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.validation.Valid;
 
 @Controller
-public class BankController {
+public class FundsTransferController {
 
     @Autowired
     private SqlService sqlSvc;
@@ -42,7 +42,11 @@ public class BankController {
         }
         System.out
                 .println("NEW TRANSACTION FROM %s TO %s".formatted(transfer.getFromAccount(), transfer.getToAccount()));
-        // TODO: submit into repo and get generated uuid, pass into model
+        Boolean valid = false;
+        String fromAccountId = transfer.getFromAccount().split(" ")[1].replace("(", "").replace(")", "");
+        String toAccountId = transfer.getToAccount().split(" ")[1].replace("(", "").replace(")", "");
+        // Check 0
+        
         model.addAttribute("transfer", transfer);
         return "view1";
     }

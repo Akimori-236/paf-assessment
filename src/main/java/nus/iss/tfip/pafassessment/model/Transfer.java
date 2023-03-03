@@ -20,7 +20,7 @@ public class Transfer {
     private String toAccount;
     @NotNull(message="amount cannot be empty")
     @Positive(message = "amount must be a positive number")
-    @DecimalMin(value="0.01", message="Minimum amount is 0.01")
+    @DecimalMin(value="10.00", message="Minimum amount is $10.00")
     @Digits(integer=50, fraction=2, message="Maximum amount is 50 digits and 2 decimal places")
     private Double amount;
     private String comments;

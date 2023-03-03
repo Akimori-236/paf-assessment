@@ -18,10 +18,15 @@ public class SqlRepository {
     JdbcTemplate template;
 
     private String SQLGetAllAccounts = "SELECT * FROM accounts";
+    private String SQLisAccountExist = "SELECT EXISTS(SELECT * FROM accounts WHERE account_id=?)";
 
     public List<Account> getAllAccounts() {
         List<Account> accList = new LinkedList<>();
         accList = template.query(SQLGetAllAccounts, BeanPropertyRowMapper.newInstance(Account.class));
         return accList;
+    }
+
+    public Boolean isAccountExist(String accountId) {
+        return template.queryForObject(SQLisAccountExist, Boolean.class, accountId);
     }
 }
