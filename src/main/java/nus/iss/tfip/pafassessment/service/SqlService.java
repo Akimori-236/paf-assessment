@@ -21,4 +21,10 @@ public class SqlService {
     public Boolean isAccountExist(String accountId) {
         return sqlRepo.isAccountExist(accountId);
     }
+
+    public Double getBalanceById(String accountId) {
+        return sqlRepo.getBalanceById(accountId);
+    }
+
+    
 }

@@ -39,12 +39,10 @@
                                 <option selected></option>
                                 <option
                                     data-th-each="acc : ${accountList}"
-                                    data-th-value="${acc.name} + ' (' + ${acc.account_id} + ')'"
-                                >
-                                    <p
-                                        data-th-text="${acc.name} + ' (' + ${acc.account_id} + ')'"
-                                    ></p>
-                                </option>
+                                    data-th-value="${acc.account_id}"
+                                    data-th-text="${acc.name} + ' (' + ${acc.account_id} + ')'"
+                                    th:selected="${acc.account_id == transfer.fromAccount}"
+                                ></option>
                             </select>
                         </td>
                     </tr>
@@ -59,12 +57,10 @@
                                 <option selected></option>
                                 <option
                                     data-th-each="acc : ${accountList}"
-                                    data-th-value="${acc.name} + ' (' + ${acc.account_id} + ')'"
-                                >
-                                    <p
-                                        data-th-text="${acc.name} + ' (' + ${acc.account_id} + ')'"
-                                    ></p>
-                                </option>
+                                    data-th-value="${acc.account_id}"
+                                    data-th-text="${acc.name} + ' (' + ${acc.account_id} + ')'"
+                                    th:selected="${acc.account_id == transfer.toAccount}"
+                                ></option>
                             </select>
                         </td>
                     </tr>
@@ -85,6 +81,7 @@
                         <td class="form-label text-end">Comments:</td>
                         <td>
                             <textarea
+                                data-th-field="${transfer.comments}"
                                 class="form-control"
                                 name="comments"
                                 id="commentsID"
@@ -106,18 +103,13 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <ul class="error">
+                            <ul
+                                class="error"
+                                data-th-if="${#fields.hasAnyErrors()}"
+                            >
                                 <li
-                                    data-th-if="${#fields.hasErrors('fromAccount')}"
-                                    data-th-errors="*{fromAccount}"
-                                ></li>
-                                <li
-                                    data-th-if="${#fields.hasErrors('toAccount')}"
-                                    data-th-errors="*{toAccount}"
-                                ></li>
-                                <li
-                                    data-th-if="${#fields.hasErrors('amount')}"
-                                    data-th-errors="*{amount}"
+                                    data-th-each="err : ${#fields.allErrors()}"
+                                    data-th-text="${err}"
                                 ></li>
                             </ul>
                         </td>

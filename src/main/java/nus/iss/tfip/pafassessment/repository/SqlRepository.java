@@ -19,6 +19,7 @@ public class SqlRepository {
 
     private String SQLGetAllAccounts = "SELECT * FROM accounts";
     private String SQLisAccountExist = "SELECT EXISTS(SELECT * FROM accounts WHERE account_id=?)";
+    private String SQLGetBalanceById = "SELECT balance FROM accounts WHERE account_id=?";
 
     public List<Account> getAllAccounts() {
         List<Account> accList = new LinkedList<>();
@@ -28,5 +29,9 @@ public class SqlRepository {
 
     public Boolean isAccountExist(String accountId) {
         return template.queryForObject(SQLisAccountExist, Boolean.class, accountId);
+    }
+
+    public Double getBalanceById(String accountId) {
+        return template.queryForObject(SQLGetBalanceById, Double.class, accountId);
     }
 }

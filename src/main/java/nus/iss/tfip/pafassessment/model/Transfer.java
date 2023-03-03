@@ -18,8 +18,10 @@ public class Transfer {
     private String fromAccount;
     @NotEmpty(message="to account cannot be empty")
     private String toAccount;
+    // C3
     @NotNull(message="amount cannot be empty")
     @Positive(message = "amount must be a positive number")
+    // C4
     @DecimalMin(value="10.00", message="Minimum amount is $10.00")
     @Digits(integer=50, fraction=2, message="Maximum amount is 50 digits and 2 decimal places")
     private Double amount;
