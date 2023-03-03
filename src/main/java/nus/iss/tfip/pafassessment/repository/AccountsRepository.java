@@ -22,6 +22,7 @@ public class AccountsRepository {
     private String SQLGetBalanceById = "SELECT balance FROM accounts WHERE account_id=?";
     private String SQLWithdrawById = "UPDATE accounts SET balance = balance - ? WHERE account_id=?";
     private String SQLDepositById = "UPDATE accounts SET balance = balance + ? WHERE account_id=?";
+    private String SQLGetNameById = "SELECT name FROM accounts WHERE account_id=?";
 
     public List<Account> getAllAccounts() {
         List<Account> accList = new LinkedList<>();
@@ -45,5 +46,9 @@ public class AccountsRepository {
     public Boolean depositFunds(String accountId, Double amount) {
         int rows = template.update(SQLDepositById, amount, accountId);
         return rows > 0;
+    }
+
+    public String getNameById(String accountId) {
+        return template.queryForObject(SQLGetNameById, String.class, accountId);
     }
 }

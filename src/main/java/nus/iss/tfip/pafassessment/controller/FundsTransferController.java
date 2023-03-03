@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +23,11 @@ import jakarta.validation.Valid;
 public class FundsTransferController {
 
     @Autowired
-    private FundsTransferService sqlSvc;
+    private FundsTransferService fundsSvc;
 
     @GetMapping(path = { "/", "index.html" })
     public String landingPage(Model model) {
-        List<Account> accountList = sqlSvc.getAllAccounts();
+        List<Account> accountList = fundsSvc.getAllAccounts();
         Transfer transfer = new Transfer();
         transfer.setFromAccount("");
         transfer.setToAccount("");
@@ -40,8 +39,8 @@ public class FundsTransferController {
     @PostMapping(path = "/transfer", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String initTransfer(@Valid Transfer transfer, BindingResult binding, Model model) {
         if (binding.hasErrors()) {
-            System.err.println(binding.getAllErrors().get(0).getDefaultMessage().toString());
-            List<Account> accountList = sqlSvc.getAllAccounts();
+            // System.err.println(binding.getAllErrors().get(0).getDefaultMessage().toString());
+            List<Account> accountList = fundsSvc.getAllAccounts();
             model.addAttribute("transfer", transfer);
             model.addAttribute("accountList", accountList);
             return "view0";
@@ -58,11 +57,11 @@ public class FundsTransferController {
 
         List<ObjectError> errorList = new LinkedList<>();
         // C0
-        if (!sqlSvc.isAccountExist(fromAccountId)) {
+        if (!fundsSvc.isAccountExist(fromAccountId)) {
             ObjectError error = new ObjectError("fromAccount", "From account does not exist in database");
             errorList.add(error);
         }
-        if (!sqlSvc.isAccountExist(toAccountId)) {
+        if (!fundsSvc.isAccountExist(toAccountId)) {
             ObjectError error = new ObjectError("toAccount", "To account does not exist in database");
             errorList.add(error);
         }
@@ -81,7 +80,7 @@ public class FundsTransferController {
             errorList.add(error);
         }
         // C5
-        if (transfer.getAmount() >= sqlSvc.getBalanceById(toAccountId)) {
+        if (transfer.getAmount() >= fundsSvc.getBalanceById(toAccountId)) {
             ObjectError error = new ObjectError("amount", "Insufficient funds in account");
             errorList.add(error);
         }
@@ -92,19 +91,19 @@ public class FundsTransferController {
                 binding.addError(err);
                 System.err.println(binding.getAllErrors());
             }
-            List<Account> accountList = sqlSvc.getAllAccounts();
+            List<Account> accountList = fundsSvc.getAllAccounts();
             model.addAttribute("transfer", transfer);
             model.addAttribute("accountList", accountList);
             return "view0";
         }
         // PASS VALIDATION
         try {
-            transfer = sqlSvc.transferFunds(transfer);
+            transfer = fundsSvc.transferFunds(transfer);
         } catch (TransferException e) {
             System.err.println(e);
             ObjectError oe= new ObjectError("error", e.getMessage());
             binding.addError(oe);
-            List<Account> accountList = sqlSvc.getAllAccounts();
+            List<Account> accountList = fundsSvc.getAllAccounts();
             model.addAttribute("transfer", transfer);
             model.addAttribute("accountList", accountList);
             return "view0";

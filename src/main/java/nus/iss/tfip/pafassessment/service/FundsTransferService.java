@@ -16,32 +16,35 @@ import nus.iss.tfip.pafassessment.repository.AccountsRepository;
 public class FundsTransferService {
 
     @Autowired
-    private AccountsRepository sqlRepo;
+    private AccountsRepository accRepo;
 
     public List<Account> getAllAccounts() {
-        return sqlRepo.getAllAccounts();
+        return accRepo.getAllAccounts();
     }
 
     public Boolean isAccountExist(String accountId) {
-        return sqlRepo.isAccountExist(accountId);
+        return accRepo.isAccountExist(accountId);
     }
 
     public Double getBalanceById(String accountId) {
-        return sqlRepo.getBalanceById(accountId);
+        return accRepo.getBalanceById(accountId);
     }
 
     @Transactional(rollbackFor = TransferException.class)
-    public Transfer transferFunds(Transfer startTransfer) throws TransferException {
+    public Transfer transferFunds(Transfer transfer) throws TransferException {
         // generate transaction id
         String txnId = UUID.randomUUID().toString().substring(0, 8);
-        startTransfer.setId(txnId);
+        transfer.setId(txnId);
         // Transaction
-        Boolean isWithdrawSuccess = sqlRepo.withdrawFunds(startTransfer.getFromAccount(), startTransfer.getAmount());
+        Boolean isWithdrawSuccess = accRepo.withdrawFunds(transfer.getFromAccount(), transfer.getAmount());
         if (!isWithdrawSuccess)
             throw new TransferException("Error withdrawing funds");
-        Boolean isDepositSuccess = sqlRepo.depositFunds(startTransfer.getToAccount(), startTransfer.getAmount());
+        Boolean isDepositSuccess = accRepo.depositFunds(transfer.getToAccount(), transfer.getAmount());
         if (!isDepositSuccess)
             throw new TransferException("Error depositing funds");
-        return startTransfer;
+        // populate account names
+        transfer.setFromAccountName(accRepo.getNameById(transfer.getFromAccount()));
+        transfer.setToAccountName(accRepo.getNameById(transfer.getToAccount()));
+        return transfer;
     }
 }
