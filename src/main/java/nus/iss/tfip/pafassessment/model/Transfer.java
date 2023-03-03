@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transfer {
-    private int id;
+    private String id;
     @NotEmpty(message="from account cannot be empty")
     private String fromAccount;
     @NotEmpty(message="to account cannot be empty")
@@ -24,4 +24,8 @@ public class Transfer {
     @Digits(integer=50, fraction=2, message="Maximum amount is 50 digits and 2 decimal places")
     private Double amount;
     private String comments;
+
+    // private generateID() {
+    //     uuid
+    // }
 }

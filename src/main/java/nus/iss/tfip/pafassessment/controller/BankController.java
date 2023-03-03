@@ -43,6 +43,7 @@ public class BankController {
         System.out
                 .println("NEW TRANSACTION FROM %s TO %s".formatted(transfer.getFromAccount(), transfer.getToAccount()));
         // TODO: submit into repo and get generated uuid, pass into model
+        model.addAttribute("transfer", transfer);
         return "view1";
     }
 

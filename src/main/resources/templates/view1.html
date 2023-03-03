@@ -16,9 +16,14 @@
         <div class="container">
             <h1>Successful Funds Transfer</h1>
             <p data-th-object="${transfer}">
-                Your transfer of $<span class="fw-bold" data-th-text="*{amount}"></span> from
+                Your transfer of $<span
+                    class="fw-bold"
+                    data-th-text="*{#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}"
+                ></span>
+                from
                 <span class="fw-bold" data-th-text="*{fromAccount}"></span> to
-                <span class="fw-bold" data-th-text="*{toAccount}"></span> is successful.
+                <span class="fw-bold" data-th-text="*{toAccount}"></span> is
+                successful.
             </p>
             <!-- <p data-th-object="${transfer}">Transaction ID is <span data-th-text="*{id}"></span></p> -->
         </div>

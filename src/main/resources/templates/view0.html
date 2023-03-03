@@ -19,7 +19,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>Funds Transfer</h1> 
+            <h1>Funds Transfer</h1>
             <form
                 class="col-lg-6"
                 method="POST"
@@ -39,7 +39,7 @@
                                 <option selected></option>
                                 <option
                                     data-th-each="acc : ${accountList}"
-                                    value="${acc.account_id}"
+                                    data-th-value="${acc.name} + ' (' + ${acc.account_id} + ')'"
                                 >
                                     <p
                                         data-th-text="${acc.name} + ' (' + ${acc.account_id} + ')'"
@@ -59,7 +59,7 @@
                                 <option selected></option>
                                 <option
                                     data-th-each="acc : ${accountList}"
-                                    value="${acc.account_id}"
+                                    data-th-value="${acc.name} + ' (' + ${acc.account_id} + ')'"
                                 >
                                     <p
                                         data-th-text="${acc.name} + ' (' + ${acc.account_id} + ')'"
