@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Transfer {
     private String id;
-    @NotEmpty(message="from account cannot be empty")
+    @NotEmpty(message="From account cannot be empty")
     private String fromAccount;
-    @NotEmpty(message="to account cannot be empty")
+    @NotEmpty(message="To account cannot be empty")
     private String toAccount;
     // C3
-    @NotNull(message="amount cannot be empty")
-    @Positive(message = "amount must be a positive number")
+    @NotNull(message="Amount cannot be empty")
+    @Positive(message = "Amount must be a positive number")
     // C4
     @DecimalMin(value="10.00", message="Minimum amount is $10.00")
     @Digits(integer=50, fraction=2, message="Maximum amount is 50 digits and 2 decimal places")
