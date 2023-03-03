@@ -16,8 +16,10 @@ public class Transfer {
     private String id;
     @NotEmpty(message="From account cannot be empty")
     private String fromAccount;
+    private String fromAccountName;
     @NotEmpty(message="To account cannot be empty")
     private String toAccount;
+    private String toAccountName;
     // C3
     @NotNull(message="Amount cannot be empty")
     @Positive(message = "Amount must be a positive number")

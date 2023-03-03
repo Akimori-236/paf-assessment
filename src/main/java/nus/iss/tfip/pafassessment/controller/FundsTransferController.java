@@ -12,9 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import nus.iss.tfip.pafassessment.exception.TransferException;
 import nus.iss.tfip.pafassessment.model.Account;
 import nus.iss.tfip.pafassessment.model.Transfer;
-import nus.iss.tfip.pafassessment.service.SqlService;
+import nus.iss.tfip.pafassessment.service.FundsTransferService;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
@@ -23,7 +24,7 @@ import jakarta.validation.Valid;
 public class FundsTransferController {
 
     @Autowired
-    private SqlService sqlSvc;
+    private FundsTransferService sqlSvc;
 
     @GetMapping(path = { "/", "index.html" })
     public String landingPage(Model model) {
@@ -91,6 +92,18 @@ public class FundsTransferController {
                 binding.addError(err);
                 System.err.println(binding.getAllErrors());
             }
+            List<Account> accountList = sqlSvc.getAllAccounts();
+            model.addAttribute("transfer", transfer);
+            model.addAttribute("accountList", accountList);
+            return "view0";
+        }
+        // PASS VALIDATION
+        try {
+            transfer = sqlSvc.transferFunds(transfer);
+        } catch (TransferException e) {
+            System.err.println(e);
+            ObjectError oe= new ObjectError("error", e.getMessage());
+            binding.addError(oe);
             List<Account> accountList = sqlSvc.getAllAccounts();
             model.addAttribute("transfer", transfer);
             model.addAttribute("accountList", accountList);
