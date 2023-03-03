@@ -41,7 +41,7 @@
                                     data-th-each="acc : ${accountList}"
                                     data-th-value="${acc.account_id}"
                                     data-th-text="${acc.name} + ' (' + ${acc.account_id} + ')'"
-                                    th:selected="${acc.account_id == transfer.fromAccount}"
+                                    data-th-selected="${acc.account_id == transfer.fromAccount}"
                                 ></option>
                             </select>
                         </td>
@@ -59,7 +59,7 @@
                                     data-th-each="acc : ${accountList}"
                                     data-th-value="${acc.account_id}"
                                     data-th-text="${acc.name} + ' (' + ${acc.account_id} + ')'"
-                                    th:selected="${acc.account_id == transfer.toAccount}"
+                                    data-th-selected="${acc.account_id == transfer.toAccount}"
                                 ></option>
                             </select>
                         </td>

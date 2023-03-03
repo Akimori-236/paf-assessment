@@ -15,6 +15,8 @@ import nus.iss.tfip.pafassessment.exception.TransferException;
 import nus.iss.tfip.pafassessment.model.Account;
 import nus.iss.tfip.pafassessment.model.Transfer;
 import nus.iss.tfip.pafassessment.service.FundsTransferService;
+import nus.iss.tfip.pafassessment.service.LogAuditService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
@@ -24,6 +26,8 @@ public class FundsTransferController {
 
     @Autowired
     private FundsTransferService fundsSvc;
+    @Autowired
+    private LogAuditService logSvc;
 
     @GetMapping(path = { "/", "index.html" })
     public String landingPage(Model model) {
@@ -101,15 +105,21 @@ public class FundsTransferController {
             transfer = fundsSvc.transferFunds(transfer);
         } catch (TransferException e) {
             System.err.println(e);
-            ObjectError oe= new ObjectError("error", e.getMessage());
+            ObjectError oe = new ObjectError("error", e.getMessage());
             binding.addError(oe);
             List<Account> accountList = fundsSvc.getAllAccounts();
             model.addAttribute("transfer", transfer);
             model.addAttribute("accountList", accountList);
             return "view0";
         }
-        model.addAttribute("transfer", transfer);
-        return "view1";
+        // SUCCESSFUL TRANSACTION
+        // log transaction to redis
+        if (logSvc.logTransaction(transfer)) {
+            model.addAttribute("transfer", transfer);
+            return "view1";
+        } else {
+            model.addAttribute("transfer", transfer);
+            return "rediserror";
+        }
     }
-
 }
