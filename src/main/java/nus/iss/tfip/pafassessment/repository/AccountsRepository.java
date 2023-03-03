@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Repository
-public class SqlRepository {
+public class AccountsRepository {
 
     @Autowired
     JdbcTemplate template;

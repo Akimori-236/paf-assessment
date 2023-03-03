@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import nus.iss.tfip.pafassessment.exception.TransferException;
 import nus.iss.tfip.pafassessment.model.Account;
 import nus.iss.tfip.pafassessment.model.Transfer;
-import nus.iss.tfip.pafassessment.repository.SqlRepository;
+import nus.iss.tfip.pafassessment.repository.AccountsRepository;
 
 @Service
 public class FundsTransferService {
 
     @Autowired
-    private SqlRepository sqlRepo;
+    private AccountsRepository sqlRepo;
 
     public List<Account> getAllAccounts() {
         return sqlRepo.getAllAccounts();
